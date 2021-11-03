@@ -10,12 +10,12 @@ use Stogon\UnleashBundle\FeatureInterface;
 use Stogon\UnleashBundle\Repository\FeatureRepository;
 use Stogon\UnleashBundle\Strategy\StrategyInterface;
 use Stogon\UnleashBundle\Unleash;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @coversDefaultClass \Stogon\UnleashBundle\Unleash
@@ -42,7 +42,7 @@ class UnleashTest extends TestCase
 			$this->createMock(TokenStorageInterface::class),
 			$this->createMock(EventDispatcherInterface::class),
 			$featureRepositoryMock,
-			new ArrayIterator([]),
+			new ArrayIterator([])
 		);
 
 		$features = $unleash->getFeatures();
@@ -72,7 +72,7 @@ class UnleashTest extends TestCase
 			$this->createMock(TokenStorageInterface::class),
 			$this->createMock(EventDispatcherInterface::class),
 			$featureRepositoryMock,
-			new ArrayIterator([]),
+			new ArrayIterator([])
 		);
 
 		$feature = $unleash->getFeature($name);
@@ -99,7 +99,7 @@ class UnleashTest extends TestCase
 			$this->createMock(TokenStorageInterface::class),
 			$this->createMock(EventDispatcherInterface::class),
 			$featureRepositoryMock,
-			new ArrayIterator([]),
+			new ArrayIterator([])
 		);
 
 		$feature = $unleash->getFeature($name);
@@ -171,7 +171,7 @@ class UnleashTest extends TestCase
 		$eventDispatcherMock = $this->createMock(EventDispatcherInterface::class);
 		$eventDispatcherMock->expects($this->once())
 			->method('dispatch')
-			->with($this->isInstanceOf(UnleashContextEvent::class))
+			->with($this->isType('string'), $this->isInstanceOf(UnleashContextEvent::class))
 			->willReturn($eventMock);
 
 		$unleash = new Unleash(
@@ -179,7 +179,7 @@ class UnleashTest extends TestCase
 			$tokenStorageMock,
 			$eventDispatcherMock,
 			$featureRepositoryMock,
-			new ArrayIterator($strategies),
+			new ArrayIterator($strategies)
 		);
 
 		$this->assertTrue($unleash->isFeatureEnabled($featureName));
@@ -225,7 +225,7 @@ class UnleashTest extends TestCase
 			$tokenStorageMock,
 			$eventDispatcherMock,
 			$featureRepositoryMock,
-			new ArrayIterator($strategies),
+			new ArrayIterator($strategies)
 		);
 
 		$this->assertFalse($unleash->isFeatureEnabled($featureName));

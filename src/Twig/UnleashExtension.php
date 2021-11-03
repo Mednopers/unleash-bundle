@@ -8,7 +8,7 @@ use Twig\TwigFunction;
 
 class UnleashExtension extends AbstractExtension
 {
-	protected UnleashInterface $unleash;
+	protected $unleash;
 
 	public function __construct(UnleashInterface $unleash)
 	{

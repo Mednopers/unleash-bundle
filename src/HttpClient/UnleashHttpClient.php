@@ -2,16 +2,16 @@
 
 namespace Stogon\UnleashBundle\HttpClient;
 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use GuzzleHttp\ClientInterface;
 
 class UnleashHttpClient
 {
-	private HttpClientInterface $httpClient;
-	protected string $apiUrl;
-	protected string $instanceId;
-	protected string $environment;
+	private $httpClient;
+	protected $apiUrl;
+	protected $instanceId;
+	protected $environment;
 
-	public function __construct(HttpClientInterface $unleashClient, string $apiUrl, string $instanceId, string $environment)
+	public function __construct(ClientInterface $unleashClient, string $apiUrl, string $instanceId, string $environment)
 	{
 		$this->httpClient = $unleashClient;
 		$this->apiUrl = $apiUrl;
@@ -23,7 +23,8 @@ class UnleashHttpClient
 	{
 		$response = $this->httpClient->request('GET', 'client/features');
 
-		$features = $response->toArray();
+		$jsonContents = $response->getBody()->getContents();
+		$features = json_decode($jsonContents, true);
 
 		if (array_key_exists('features', $features)) {
 			return $features['features'];

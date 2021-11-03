@@ -2,11 +2,11 @@
 
 namespace Stogon\UnleashBundle\Event;
 
-use Symfony\Contracts\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\Event;
 
 class UnleashContextEvent extends Event
 {
-	private array $payload;
+	private $payload;
 
 	public function __construct(array $payload = [])
 	{

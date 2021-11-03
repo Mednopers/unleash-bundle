@@ -9,9 +9,9 @@ final class Configuration implements ConfigurationInterface
 {
 	public function getConfigTreeBuilder(): TreeBuilder
 	{
-		$treeBuilder = new TreeBuilder('unleash_bundle');
+		$treeBuilder = new TreeBuilder();
 
-		$rootNode = $treeBuilder->getRootNode();
+		$rootNode = $treeBuilder->root('unleash_bundle');
 
 		// @phpstan-ignore-next-line
 		$rootNode
@@ -24,7 +24,9 @@ final class Configuration implements ConfigurationInterface
 					->beforeNormalization()
 						->ifString()
 						// Add a trailing slash at the end of the URL
-						->then(fn ($v) => rtrim($v, '/').'/')
+						->then(function ($v) {
+							return rtrim($v, '/').'/';
+						})
 					->end()
 					->validate()
 						->ifTrue(function ($value) {
@@ -32,6 +34,11 @@ final class Configuration implements ConfigurationInterface
 						})
 						->thenInvalid('Invalid URL given : %s')
 					->end()
+				->end()
+				->scalarNode('auth_token')
+					->info('Unleash client authentication token')
+					->isRequired()
+					->cannotBeEmpty()
 				->end()
 				->scalarNode('instance_id')
 					->info('Unleash instance ID')

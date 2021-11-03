@@ -28,30 +28,30 @@ return function (ContainerConfigurator $configurator) {
 	;
 
 	// Strategies definitions
-	$services->set(DefaultStrategy::class)->tag('unleash.strategy', ['activation_name' => 'default']);
-	$services->set(UserWithIdStrategy::class)->tag('unleash.strategy', ['activation_name' => 'userWithId']);
-	$services->set(FlexibleRolloutStrategy::class)->tag('unleash.strategy', ['activation_name' => 'flexibleRollout']);
-	$services->set(GradualRolloutUserIdStrategy::class)->tag('unleash.strategy', ['activation_name' => 'gradualRolloutUserId']);
-	$services->set(GradualRolloutSessionIdStrategy::class)->tag('unleash.strategy', ['activation_name' => 'gradualRolloutSessionId']);
-	$services->set(GradualRolloutRandomStrategy::class)->tag('unleash.strategy', ['activation_name' => 'gradualRolloutRandom']);
+	$services->set(DefaultStrategy::class)->tag('unleash.strategy');
+	$services->set(UserWithIdStrategy::class)->tag('unleash.strategy');
+	$services->set(FlexibleRolloutStrategy::class)->tag('unleash.strategy');
+	$services->set(GradualRolloutUserIdStrategy::class)->tag('unleash.strategy');
+	$services->set(GradualRolloutSessionIdStrategy::class)->tag('unleash.strategy');
+	$services->set(GradualRolloutRandomStrategy::class)->tag('unleash.strategy');
 
 	$services->set(FeatureRepository::class)
-		->arg('$httpClient', service(UnleashHttpClient::class))
-		->arg('$cache', '%unleash.cache.service%')
+		->arg('$httpClient', ref(UnleashHttpClient::class))
+		->arg('$cache', ref('%unleash.cache.service%'))
 		->arg('$ttl', '%unleash.cache.ttl%')
 		->autowire(true)
 		->autoconfigure(true)
 	;
 
 	$services->set(Unleash::class)
-		->arg('$strategiesMapping', tagged_iterator('unleash.strategy', 'activation_name'))
+		->arg('$strategiesMapping', tagged('unleash.strategy'))
 		->autowire(true)
 	;
 
 	$services->alias(UnleashInterface::class, Unleash::class);
 
 	$services->set(UnleashExtension::class)
-		->arg('$unleash', service(UnleashInterface::class))
+		->arg('$unleash', ref(UnleashInterface::class))
 		->tag('twig.extension')
 	;
 };

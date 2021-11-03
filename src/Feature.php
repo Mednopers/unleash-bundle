@@ -4,10 +4,10 @@ namespace Stogon\UnleashBundle;
 
 class Feature implements FeatureInterface
 {
-	private string $name;
-	private string $description;
-	private bool $enabled = false;
-	protected array $stategies = [];
+	private $name;
+	private $description;
+	private $enabled = false;
+	protected $stategies = [];
 
 	public function __construct(string $name, string $description, bool $enabled, array $strategies = [])
 	{

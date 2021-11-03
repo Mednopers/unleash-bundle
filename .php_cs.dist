@@ -11,8 +11,6 @@ return PhpCsFixer\Config::create()
         '@Symfony' => true,
         '@PHP70Migration' => true,
         '@PHP71Migration' => true,
-        '@PHP73Migration' => true,
-        '@PHP74Migration' => true,
         'array_syntax' => ['syntax' => 'short'],
         'yoda_style' => false,
         'ordered_imports' => true,
