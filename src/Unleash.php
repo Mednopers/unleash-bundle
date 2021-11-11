@@ -103,24 +103,24 @@ class Unleash implements UnleashInterface
 	{
 		$strategies = [];
 
-		foreach (iterator_to_array($strategiesMapping) as $strategy) {
-			if ($strategy instanceof DefaultStrategy) {
+		foreach (iterator_to_array($strategiesMapping) as $key => $strategy) {
+			if ($key === 'default' || $strategy instanceof DefaultStrategy) {
 				$strategies['default'] = $strategy;
 				$strategies[DefaultStrategy::class] = $strategy;
-			} elseif ($strategy instanceof UserWithIdStrategy) {
+			} elseif ($key === 'userWithId' || $strategy instanceof UserWithIdStrategy) {
 				$strategies['userWithId'] = $strategy;
 				$strategies[UserWithIdStrategy::class] = $strategy;
-			} elseif ($strategy instanceof FlexibleRolloutStrategy) {
+			} elseif ($key === 'flexibleRollout' || $strategy instanceof FlexibleRolloutStrategy) {
 				$strategies['flexibleRollout'] = $strategy;
 				$strategies[FlexibleRolloutStrategy::class] = $strategy;
-			} elseif ($strategy instanceof GradualRolloutUserIdStrategy) {
+			} elseif ($key === 'gradualRolloutUserId' || $strategy instanceof GradualRolloutUserIdStrategy) {
 				$strategies['gradualRolloutUserId'] = $strategy;
 				$strategies[GradualRolloutUserIdStrategy::class] = $strategy;
-			} elseif ($strategy instanceof GradualRolloutSessionIdStrategy) {
+			} elseif ($key === 'gradualRolloutSessionId' || $strategy instanceof GradualRolloutSessionIdStrategy) {
 				$strategies['gradualRolloutSessionId'] = $strategy;
 				$strategies[GradualRolloutSessionIdStrategy::class] = $strategy;
-			} elseif ($strategy instanceof GradualRolloutRandomStrategy) {
-				$strategies['gradualRolloutSessionId'] = $strategy;
+			} elseif ($key === 'gradualRolloutRandom' || $strategy instanceof GradualRolloutRandomStrategy) {
+				$strategies['gradualRolloutRandom'] = $strategy;
 				$strategies[GradualRolloutRandomStrategy::class] = $strategy;
 			}
 		}
